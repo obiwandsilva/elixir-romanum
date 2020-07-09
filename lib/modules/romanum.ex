@@ -21,6 +21,7 @@ defmodule Romanum do
 
     def convert(value) do
         cond do
+            String.length(value) == 0 -> nil
             Validator.is_valid_roman(value) -> Converter.convert(value)
             Validator.is_valid_decimal(value) -> Converter.convert(String.to_integer(value))
             true -> nil

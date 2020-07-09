@@ -58,8 +58,16 @@ defmodule RomanumTest do
   end
 
   describe "Romanum.convert/1" do
-    test "should return :bitstring for a valid Roman number" do
-      assert convert("III") == :bitstring
+    test "should return nil if an empty string is paassed as argument" do
+      refute convert("")
+    end
+
+    test "should return 3 for Roman number III" do
+      assert convert("III") == 3
+    end
+
+    test "should return 3000 for Roman number MMM" do
+      assert convert("MMM") == 3000
     end
 
     test "should return nil for an invalid Roman number" do
