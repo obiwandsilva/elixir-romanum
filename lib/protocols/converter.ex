@@ -4,12 +4,12 @@ end
 
 defimpl Converter, for: BitString do
     def convert(value) do
-        IO.puts("BitString")
+        :bitstring
     end
 end
 
 defimpl Converter, for: Integer do
     def convert(value) do
-        IO.puts("Integer")
+        :integer
     end
 end
