@@ -1,5 +1,6 @@
 defmodule ConverterTest do
     use ExUnit.Case
+    import Converter
     doctest Converter
 
     def roman_position_error() do
@@ -8,12 +9,24 @@ defmodule ConverterTest do
         }
     end
 
-    describe "convert/1 for String" do
+    describe "tests for Helper" do
+        
+        test "should return the equivalent number of repeated chars" do
+            assert Converter.Helper.repeat('a', 0) == nil
+            assert Converter.Helper.repeat('a', 1) == 'a'
+            assert Converter.Helper.repeat('a', 2) == 'aa'
+            assert Converter.Helper.repeat('a', 3) == 'aaa'
+            assert Converter.Helper.repeat('a', 4) == 'aaaa'
+            assert Converter.Helper.repeat('a', 5) == 'aaaaa'
+        end
+    end
+
+    describe "from_roman/1" do
 
         test "should return equivalent values for combinations of I" do
-            assert Converter.from_roman("I") == 1
-            assert Converter.from_roman("II") == 2
-            assert Converter.from_roman("III") == 3
+            assert from_roman("I") == 1
+            assert from_roman("II") == 2
+            assert from_roman("III") == 3
         end
 
         test "should throw an exception in case of a invalid combinations of I" do
@@ -174,6 +187,36 @@ defmodule ConverterTest do
             assert Converter.from_roman("MMDCCCLXXXVIII") == 2888
             assert Converter.from_roman("MMCMLXXXVII") == 2987
             assert Converter.from_roman("MMCMXCIX") == 2999
+        end
+    end
+
+    describe "to_roman/1" do
+        
+        test "should convert decimal 1 to Roman I" do
+            assert to_roman("0") == ""
+            assert to_roman("1") == "I"
+            assert to_roman("2") == "II"
+            assert to_roman("3") == "III"
+            assert to_roman("4") == "IV"
+            assert to_roman("5") == "V"
+            assert to_roman("6") == "VI"
+            assert to_roman("7") == "VII"
+            assert to_roman("8") == "VIII"
+            assert to_roman("9") == "IX"
+            assert to_roman("10") == "X"
+            assert to_roman("11") == "XI"
+            assert to_roman("15") == "XV"
+            assert to_roman("20") == "XX"
+            assert to_roman("35") == "XXXV"
+            assert to_roman("44") == "XLIV"
+            assert to_roman("58") == "LVIII"
+            assert to_roman("99") == "XCIX"
+            assert to_roman("100") == "C"
+            assert to_roman("150") == "CL"
+            assert to_roman("1000") == "M"
+            assert to_roman("2000") == "MM"
+            assert to_roman("2888") == "MMDCCCLXXXVIII"
+            assert to_roman("3000") == "MMM"
         end
     end
 end

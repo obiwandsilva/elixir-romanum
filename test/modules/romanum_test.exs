@@ -57,7 +57,7 @@ defmodule RomanumTest do
     end
   end
 
-  describe "Romanum.convert/1" do
+  describe "Romanum.from_roman/1" do
     test "should return nil if an empty string is paassed as argument" do
       refute convert("")
     end
@@ -74,8 +74,12 @@ defmodule RomanumTest do
       refute convert("IIIA")
     end
 
-    test "should return :integer for a valid decimal number" do
-      assert convert("2150") == :integer
+    test "should return MMCL for a valid decimal number equal 2150" do
+      assert convert("2150") == "MMCL"
+    end
+
+    test "should return DCCLVII for a valid decimal number equal 758" do
+      assert convert("758") == "DCCLVIII"
     end
 
     test "should return nil for an invalid decimal number" do

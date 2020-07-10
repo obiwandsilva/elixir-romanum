@@ -1,3 +1,21 @@
+defmodule Converter.Helper do
+    defp repeat(_, chars, 0) do
+        chars
+    end
+
+    defp repeat(char, chars, count) do
+        repeat(char, char ++ chars, (count - 1))
+    end
+
+    def repeat(_, 0) do
+        nil
+    end
+
+    def repeat(char, count) do
+        repeat(char, [], count)
+    end
+end
+
 defmodule Converter do
 
     defmodule FromRoman do
@@ -91,7 +109,64 @@ defmodule Converter do
     end
 
     defmodule ToRoman do
-        defp convert(value) do
+        import Converter.Helper
+
+        @dictionary %{
+            1 => %{
+                :unit => 'I',
+                :half => 'V',
+                :full => 'X'
+            },
+            2 => %{
+                :unit => 'X',
+                :half => 'L',
+                :full => 'C'
+            },
+            3 => %{
+                :unit => 'C',
+                :half => 'D',
+                :full => 'M'
+            }
+        }
+
+        defp get_seq(value, level) do
+            %{
+                1 => @dictionary[level].unit, 
+                2 => repeat(@dictionary[level].unit, 2),
+                3 => repeat(@dictionary[level].unit, 3),
+                4 => [@dictionary[level].unit, @dictionary[level].half],
+                5 => @dictionary[level].half,
+                6 => [@dictionary[level].half, @dictionary[level].unit],
+                7 => @dictionary[level].half ++ repeat(@dictionary[level].unit, 2),
+                8 => @dictionary[level].half ++ repeat(@dictionary[level].unit, 3),
+                9 => @dictionary[level].unit ++ @dictionary[level].full,
+                0 => ''
+            }[value]
+        end
+
+        defp eval_char(seq, 0, _) do
+            seq
+        end
+
+        defp eval_char(_, 4, decimals) do
+            [head | tail] = decimals
+            
+            Converter.Helper.repeat('M', List.to_integer([head]))
+            |> eval_char(3, tail)
+        end
+
+        defp eval_char(seq, level, decimals) do
+            [head | tail] = decimals
+
+            seq ++ get_seq(List.to_integer([head]), level)
+            |> eval_char(level - 1, tail)
+        end
+
+        def convert(value) do
+            size = length(value)
+
+            eval_char('', size, value)
+            |> List.to_string
         end
     end
 
@@ -102,6 +177,8 @@ defmodule Converter do
     end
 
     def to_roman(value) do
-        :integer
+        value
+        |> to_charlist
+        |> ToRoman.convert
     end
 end
