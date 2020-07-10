@@ -1,0 +1,5 @@
+start_romanum() {
+    /tmp/romanum/_build/prod/rel/romanum/bin/romanum start
+}
+
+start_romanum
