@@ -1,21 +1,68 @@
 # Romanum
 
-**TODO: Add description**
+Romanum is an Elixir application used for convertions between Roman and decimal numbers.
 
-## Installation
+## Usage
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `romanum` to your list of dependencies in `mix.exs`:
+After running the application (See the Instalation section bellow), the app will ask for an input.
 
-```elixir
-def deps do
-  [
-    {:romanum, "~> 0.1.0"}
-  ]
-end
+Romanum is smart enought to differ a decimal number from a Roman one from the input you pass.
+
+In case you input a valid decimal number, Romanum will print a message with its convertion to Roman. Example:
+
+```
+Starting Romanum...
+Enter a valid Roman or decimal number or type 'exit' to quit:
+10
+10 -> X
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/romanum](https://hexdocs.pm/romanum).
+In case you input a valid Roman number, Romanum will convert the number to a decimal one. Example:
 
+```
+Starting Romanum...
+Enter a valid Roman or decimal number or type 'exit' to quit:
+MMCL
+MMCL -> 2150
+```
+
+Romanum ignores empty spaces and is also case insensitive, so you can type Roman numbers like `xxv`. 
+
+To exit the programm, type `exit`.
+
+
+## Running
+
+You can run the app by both building and executing in your machine or by running inside a container.
+
+**First of all**, clone the repo with `git clone https://github.com/obiwandsilva/elixir-romanum.git`
+
+1) __In your machine__
+
+Requirements: erlang and elixir installed.
+
+Inside the project directory run `MIX_ENV=prod mix release --force`
+
+An executable will be generated inside the also created _build directory.
+
+Run `_build/prod/rel/romanum/bin/romanum start` or execute the __.bat__ file if you are on a Windows environment.
+
+A message will appear asking for your input.
+
+2) __Using Docker__
+
+Requirements: docker installed.
+
+Inside the project repo, run: `docker build -t wandsilva/romanum .`
+
+This will build the image to be used by the container.
+
+After the image building, run a container with a interactive tty with the command:
+
+`docker container run --name romanum -ti wandsilva/romanum sh`
+
+After running this, you will be logged in a shell terminal inside the container.
+
+Run the command `romanum`  and this will start the appication.
+
+A message will appear asking for your input.
