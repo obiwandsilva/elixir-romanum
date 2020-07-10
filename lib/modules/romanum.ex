@@ -4,10 +4,8 @@ defmodule Romanum do
             if String.length(value) > 14 do
                 false
             else
-                value
-                |> String.upcase
-                |> (fn upcased -> Regex.run(~r/[^IVXLCDM]/i, upcased) end).()
-                |> (fn match -> !match || false end).()
+                !Regex.run(~r/[^IVXLCDM]/i, value)
+                || false
             end
         end
 

@@ -8,12 +8,18 @@ defmodule Input do
         "#{source} -> #{result}"
     end
 
+    defp clean(input) do
+        input
+        |> String.replace(~r/(\n|\s)/, "")
+        |> String.upcase
+    end
+
     def ask() do
         input = IO.gets("Enter a valid Roman or decimal number or type 'exit' to quit:\n")
-        cleaned = String.replace(input, ~r/(\n|\s)/, "")
+        cleaned = clean(input)
 
         try do
-            if cleaned == "exit" do
+            if cleaned == "EXIT" do
                 IO.puts("Exiting Romanum...")
             else
                 Romanum.convert(cleaned)
